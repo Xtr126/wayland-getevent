@@ -40,6 +40,9 @@ struct client_state {
     struct wl_surface *wl_surface;
     struct xdg_surface *xdg_surface;
     struct xdg_toplevel *xdg_toplevel;
+
+    int32_t width, height;
+    bool closed;
 };
 
 static void
@@ -56,7 +59,7 @@ static const struct wl_buffer_listener wl_buffer_listener = {
 static struct wl_buffer *
 draw_frame(struct client_state *state)
 {
-    const int width = 640, height = 480;
+    int width = state->width, height = state->height;
     int stride = width * 4;
     int size = stride * height;
 
@@ -78,7 +81,7 @@ draw_frame(struct client_state *state)
     wl_shm_pool_destroy(pool);
     close(fd);
 
-\    for (int y = 0; y < height; ++y) {
+    for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             if ((x + y / 20 * 20) % 40 < 8)
                 data[y * width + x] = 0xFF666666;
@@ -89,6 +92,32 @@ draw_frame(struct client_state *state)
     wl_buffer_add_listener(buffer, &wl_buffer_listener, NULL);
     return buffer;
 }
+
+static void
+xdg_toplevel_configure(void *data,
+		struct xdg_toplevel *xdg_toplevel, int32_t width, int32_t height,
+		struct wl_array *states)
+{
+	struct client_state *state = data;
+	if (width == 0 || height == 0) {
+		/* Compositor is deferring to us */
+		return;
+	}
+	state->width = width;
+	state->height = height;
+}
+
+static void
+xdg_toplevel_close(void *data, struct xdg_toplevel *toplevel)
+{
+	struct client_state *state = data;
+	state->closed = true;
+}
+
+static const struct xdg_toplevel_listener xdg_toplevel_listener = {
+	.configure = xdg_toplevel_configure,
+	.close = xdg_toplevel_close,
+};
 
 static void
 xdg_surface_configure(void *data,
@@ -151,6 +180,8 @@ int
 main(int argc, char *argv[])
 {
     struct client_state state = { 0 };
+    state.width = 640;
+	state.height = 480;
     state.wl_display = wl_display_connect(NULL);
     state.wl_registry = wl_display_get_registry(state.wl_display);
     wl_registry_add_listener(state.wl_registry, &wl_registry_listener, &state);
@@ -161,11 +192,14 @@ main(int argc, char *argv[])
             state.xdg_wm_base, state.wl_surface);
     xdg_surface_add_listener(state.xdg_surface, &xdg_surface_listener, &state);
     state.xdg_toplevel = xdg_surface_get_toplevel(state.xdg_surface);
+
+    xdg_toplevel_add_listener(state.xdg_toplevel, &xdg_toplevel_listener, &state);
+
     xdg_toplevel_set_title(state.xdg_toplevel, "XtMapper");
     xdg_toplevel_set_maximized(state.xdg_toplevel);
     wl_surface_commit(state.wl_surface);
 
-    while (wl_display_dispatch(state.wl_display)) {
+    while (wl_display_dispatch(state.wl_display) && !state.closed) {
         /* This space deliberately left blank */
     }
 
