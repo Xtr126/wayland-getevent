@@ -5,7 +5,7 @@ LIBS=\
 all: client.c
 	$(CC) $(CFLAGS) \
 		-g -std=c11 \
-		-o client client.c \
+		-o client client.c xdg-shell-protocol.c \
 		$(LIBS) -static
 
 .DEFAULT_GOAL=all
