@@ -3,12 +3,15 @@
 #include <limits.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
 #include <sys/mman.h>
 #include <sys/syscall.h>
 #include <time.h>
 #include <unistd.h>
 #include <wayland-client.h>
 #include "xdg-shell-client-protocol.h"
+#include "pointer-constraints-unstable-v1-client-protocol.h"
+#include "relative-pointer-unstable-v1-client-protocol.h"
 
 
 static int
@@ -36,10 +39,18 @@ struct client_state {
     struct wl_shm *wl_shm;
     struct wl_compositor *wl_compositor;
     struct xdg_wm_base *xdg_wm_base;
+    struct wl_seat *wl_seat;
+
     /* Objects */
     struct wl_surface *wl_surface;
+    struct wl_pointer *wl_pointer;
     struct xdg_surface *xdg_surface;
     struct xdg_toplevel *xdg_toplevel;
+
+    struct zwp_pointer_constraints_v1 *pointer_constraints;
+    struct zwp_relative_pointer_manager_v1 *relative_pointer_manager;
+    struct zwp_relative_pointer_v1 *relative_pointer;
+
 
     int32_t width, height;
     bool closed;
@@ -145,6 +156,62 @@ static const struct xdg_wm_base_listener xdg_wm_base_listener = {
     .ping = xdg_wm_base_ping,
 };
 
+void handle_relative_motion(void *data,
+				struct zwp_relative_pointer_v1 *zwp_relative_pointer_v1,
+				uint32_t utime_hi,
+				uint32_t utime_lo,
+				wl_fixed_t dx,
+				wl_fixed_t dy,
+				wl_fixed_t dx_unaccel,
+				wl_fixed_t dy_unaccel)
+{
+    static double acc_x = 0;
+    static double acc_y = 0;
+
+    acc_x += wl_fixed_to_double(dx);
+    acc_y += wl_fixed_to_double(dy);
+
+    printf("REL_X %d\n", (int)acc_x);
+    printf("REL_Y %d\n", (int)acc_y);
+
+    acc_x -= (int)acc_x;
+    acc_y -= (int)acc_y;
+}
+
+
+static const struct zwp_relative_pointer_v1_listener relative_pointer_listener = {
+    handle_relative_motion,
+};
+
+static void
+wl_seat_capabilities(void *data, struct wl_seat *wl_seat, uint32_t capabilities)
+{
+       struct client_state *state = data;
+
+       bool have_pointer = capabilities & WL_SEAT_CAPABILITY_POINTER;
+
+       if (have_pointer && state->wl_pointer == NULL) {
+            state->wl_pointer = wl_seat_get_pointer(state->wl_seat);
+            state->relative_pointer = zwp_relative_pointer_manager_v1_get_relative_pointer(
+                            state->relative_pointer_manager, state->wl_pointer);
+            zwp_relative_pointer_v1_add_listener(state->relative_pointer, &relative_pointer_listener, &state);
+
+       } else if (!have_pointer && state->wl_pointer != NULL) {
+               wl_pointer_release(state->wl_pointer);
+               state->wl_pointer = NULL;
+       }
+}
+
+static void
+wl_seat_name(void *data, struct wl_seat *wl_seat, const char *name)
+{
+}
+
+static const struct wl_seat_listener wl_seat_listener = {
+       .capabilities = wl_seat_capabilities,
+       .name = wl_seat_name,
+};
+
 static void
 registry_global(void *data, struct wl_registry *wl_registry,
         uint32_t name, const char *interface, uint32_t version)
@@ -161,6 +228,17 @@ registry_global(void *data, struct wl_registry *wl_registry,
                 wl_registry, name, &xdg_wm_base_interface, 1);
         xdg_wm_base_add_listener(state->xdg_wm_base,
                 &xdg_wm_base_listener, state);
+    } else if (strcmp(interface, "zwp_pointer_constraints_v1") == 0) {
+        state->pointer_constraints = (struct zwp_pointer_constraints_v1 *)wl_registry_bind(
+                wl_registry, name, &zwp_pointer_constraints_v1_interface, 1);
+    } else if (strcmp(interface, "zwp_relative_pointer_manager_v1") == 0) {
+        state->relative_pointer_manager = (struct zwp_relative_pointer_manager_v1 *)wl_registry_bind(
+                wl_registry, name, &zwp_relative_pointer_manager_v1_interface, 1);
+    } else if (strcmp(interface, wl_seat_interface.name) == 0) {
+               state->wl_seat = wl_registry_bind(
+                               wl_registry, name, &wl_seat_interface, 7);
+               wl_seat_add_listener(state->wl_seat,
+                               &wl_seat_listener, state);
     }
 }
 
