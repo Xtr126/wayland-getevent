@@ -1,4 +1,5 @@
 #define _GNU_SOURCE
+#include <stdlib.h>
 #include <errno.h>
 #include <limits.h>
 #include <stdbool.h>
@@ -79,27 +80,12 @@ draw_frame(struct client_state *state)
         return NULL;
     }
 
-    uint32_t *data = mmap(NULL, size,
-            PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-    if (data == MAP_FAILED) {
-        close(fd);
-        return NULL;
-    }
-
     struct wl_shm_pool *pool = wl_shm_create_pool(state->wl_shm, fd, size);
     struct wl_buffer *buffer = wl_shm_pool_create_buffer(pool, 0,
             width, height, stride, WL_SHM_FORMAT_ARGB8888);
     wl_shm_pool_destroy(pool);
     close(fd);
 
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
-            if ((x + y / 20 * 20) % 40 < 8)
-                data[y * width + x] = 0xFF666666;
-        }
-    }
-
-    munmap(data, size);
     wl_buffer_add_listener(buffer, &wl_buffer_listener, NULL);
     return buffer;
 }
@@ -196,6 +182,8 @@ wl_seat_capabilities(void *data, struct wl_seat *wl_seat, uint32_t capabilities)
                             state->relative_pointer_manager, state->wl_pointer);
             zwp_relative_pointer_v1_add_listener(state->relative_pointer, &relative_pointer_listener, &state);
 
+            zwp_pointer_constraints_v1_confine_pointer(state->pointer_constraints, state->wl_surface, state->wl_pointer, NULL, ZWP_POINTER_CONSTRAINTS_V1_LIFETIME_PERSISTENT);
+
        } else if (!have_pointer && state->wl_pointer != NULL) {
                wl_pointer_release(state->wl_pointer);
                state->wl_pointer = NULL;
@@ -205,6 +193,7 @@ wl_seat_capabilities(void *data, struct wl_seat *wl_seat, uint32_t capabilities)
 static void
 wl_seat_name(void *data, struct wl_seat *wl_seat, const char *name)
 {
+    /* This space deliberately left blank */
 }
 
 static const struct wl_seat_listener wl_seat_listener = {
