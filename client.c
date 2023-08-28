@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <limits.h>
+#include <linux/input-event-codes.h>
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
@@ -162,8 +163,8 @@ void handle_relative_motion(void *data,
     acc_x += wl_fixed_to_double(dx);
     acc_y += wl_fixed_to_double(dy);
 
-    printf("REL_X %d\n", (int)acc_x);
-    printf("REL_Y %d\n", (int)acc_y);
+    printf("/dev/input/wl_pointer_relative EV_REL REL_X %d\n", (int)acc_x);
+    printf("/dev/input/wl_pointer_relative EV_REL REL_Y %d\n", (int)acc_y);
 
     acc_x -= (int)acc_x;
     acc_y -= (int)acc_y;
@@ -250,6 +251,86 @@ static const struct wl_keyboard_listener wl_keyboard_listener = {
 };
 
 static void
+wl_pointer_axis_source(void *data, struct wl_pointer *wl_pointer, uint32_t axis_source)
+{
+    /* This space deliberately left blank */
+}
+
+static void
+wl_pointer_axis_stop(void *data, struct wl_pointer *wl_pointer,
+               uint32_t time, uint32_t axis)
+{
+    /* This space deliberately left blank */
+}
+
+static void
+wl_pointer_axis_discrete(void *data, struct wl_pointer *wl_pointer,
+               uint32_t axis, int32_t discrete)
+{
+    /* This space deliberately left blank */
+}
+
+static void
+wl_pointer_frame(void *data, struct wl_pointer *wl_pointer)
+{
+    /* This space deliberately left blank */
+    
+}
+
+static void
+wl_pointer_enter(void *data, struct wl_pointer *wl_pointer,
+               uint32_t serial, struct wl_surface *surface,
+               wl_fixed_t surface_x, wl_fixed_t surface_y)
+{
+    /* This space deliberately left blank */
+}
+
+static void
+wl_pointer_leave(void *data, struct wl_pointer *wl_pointer,
+               uint32_t serial, struct wl_surface *surface)
+{ 
+    /* This space deliberately left blank */
+}
+
+static void
+wl_pointer_motion(void *data, struct wl_pointer *wl_pointer, uint32_t time,
+               wl_fixed_t surface_x, wl_fixed_t surface_y)
+{
+    printf("/dev/input/wl_pointer_motion EV_ABS ABS_X %d\n", wl_fixed_to_int(surface_x));
+    printf("/dev/input/wl_pointer_motion EV_ABS ABS_Y %d\n", wl_fixed_to_int(surface_y));
+}
+
+
+static void
+wl_pointer_button(void *data, struct wl_pointer *wl_pointer, uint32_t serial,
+               uint32_t time, uint32_t button, uint32_t state)
+{
+    const char *action = state == WL_POINTER_BUTTON_STATE_PRESSED ? "DOWN" : "UP";
+    const char *code = button == BTN_LEFT ? "BTN_LEFT" : "BTN_RIGHT";
+    printf("/dev/input/wl_pointer_button EV_KEY %s %s\n", code, action);
+}
+
+static void
+wl_pointer_axis(void *data, struct wl_pointer *wl_pointer, uint32_t time,
+                uint32_t axis, wl_fixed_t value)
+{
+     printf("/dev/input/wl_pointer_axis EV_REL %s %d\n",
+      (axis == WL_POINTER_AXIS_VERTICAL_SCROLL) ? "REL_WHEEL" : "REL_HWHEEL", value / abs(value));
+}
+
+static const struct wl_pointer_listener wl_pointer_listener = {
+   .enter = wl_pointer_enter,
+   .leave = wl_pointer_leave,
+   .motion = wl_pointer_motion,
+   .button = wl_pointer_button,
+   .axis = wl_pointer_axis,
+   .frame = wl_pointer_frame,
+   .axis_source = wl_pointer_axis_source,
+   .axis_stop = wl_pointer_axis_stop,
+   .axis_discrete = wl_pointer_axis_discrete,
+};
+
+static void
 wl_seat_capabilities(void *data, struct wl_seat *wl_seat, uint32_t capabilities)
 {
        struct client_state *state = data;
@@ -261,8 +342,8 @@ wl_seat_capabilities(void *data, struct wl_seat *wl_seat, uint32_t capabilities)
             state->relative_pointer = zwp_relative_pointer_manager_v1_get_relative_pointer(
                             state->relative_pointer_manager, state->wl_pointer);
             zwp_relative_pointer_v1_add_listener(state->relative_pointer, &relative_pointer_listener, &state);
-
             zwp_pointer_constraints_v1_confine_pointer(state->pointer_constraints, state->wl_surface, state->wl_pointer, NULL, ZWP_POINTER_CONSTRAINTS_V1_LIFETIME_PERSISTENT);
+            wl_pointer_add_listener(state->wl_pointer, &wl_pointer_listener, state);
 
        } else if (!have_pointer && state->wl_pointer != NULL) {
                wl_pointer_release(state->wl_pointer);
