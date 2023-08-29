@@ -163,8 +163,8 @@ void handle_relative_motion(void *data,
     acc_x += wl_fixed_to_double(dx);
     acc_y += wl_fixed_to_double(dy);
 
-    printf("/dev/input/wl_pointer_relative EV_REL REL_X %d\n", (int)acc_x);
-    printf("/dev/input/wl_pointer_relative EV_REL REL_Y %d\n", (int)acc_y);
+    printf("/dev/input/wl_pointer_relative: EV_REL REL_X %d\n", (int)acc_x);
+    printf("/dev/input/wl_pointer_relative: EV_REL REL_Y %d\n", (int)acc_y);
 
     acc_x -= (int)acc_x;
     acc_y -= (int)acc_y;
@@ -210,7 +210,7 @@ wl_keyboard_key(void *data, struct wl_keyboard *wl_keyboard,
        xkb_keysym_get_name(sym, buf, sizeof(buf));
        const char *action =
                state == WL_KEYBOARD_KEY_STATE_PRESSED ? "DOWN" : "UP";
-       printf("/dev/input/wl_keyboard EV_KEY KEY_%s %s\n", buf, action);
+       printf("/dev/input/wl_keyboard: EV_KEY KEY_%s %s\n", buf, action);
 }
 
 static void
@@ -296,8 +296,8 @@ static void
 wl_pointer_motion(void *data, struct wl_pointer *wl_pointer, uint32_t time,
                wl_fixed_t surface_x, wl_fixed_t surface_y)
 {
-    printf("/dev/input/wl_pointer_motion EV_ABS ABS_X %d\n", wl_fixed_to_int(surface_x));
-    printf("/dev/input/wl_pointer_motion EV_ABS ABS_Y %d\n", wl_fixed_to_int(surface_y));
+    printf("/dev/input/wl_pointer_motion: EV_ABS ABS_X %d\n", wl_fixed_to_int(surface_x));
+    printf("/dev/input/wl_pointer_motion: EV_ABS ABS_Y %d\n", wl_fixed_to_int(surface_y));
 }
 
 
@@ -307,14 +307,14 @@ wl_pointer_button(void *data, struct wl_pointer *wl_pointer, uint32_t serial,
 {
     const char *action = state == WL_POINTER_BUTTON_STATE_PRESSED ? "DOWN" : "UP";
     const char *code = button == BTN_LEFT ? "BTN_LEFT" : "BTN_RIGHT";
-    printf("/dev/input/wl_pointer_button EV_KEY %s %s\n", code, action);
+    printf("/dev/input/wl_pointer_button: EV_KEY %s %s\n", code, action);
 }
 
 static void
 wl_pointer_axis(void *data, struct wl_pointer *wl_pointer, uint32_t time,
                 uint32_t axis, wl_fixed_t value)
 {
-     printf("/dev/input/wl_pointer_axis EV_REL %s %d\n",
+     printf("/dev/input/wl_pointer_axis: EV_REL %s %d\n",
       (axis == WL_POINTER_AXIS_VERTICAL_SCROLL) ? "REL_WHEEL" : "REL_HWHEEL", value / abs(value));
 }
 
