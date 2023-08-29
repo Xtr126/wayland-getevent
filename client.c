@@ -419,6 +419,7 @@ static const struct wl_registry_listener wl_registry_listener = {
 int
 main(int argc, char *argv[])
 {
+    setlinebuf(stdout);
     struct client_state state = { 0 };
     state.width = 640;
 	state.height = 480;
