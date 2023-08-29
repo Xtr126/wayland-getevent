@@ -17,4 +17,4 @@ Execute binary and pipe in wayland events
 
     export XDG_RUNTIME_DIR=$(getprop waydroid.xdg_runtime_dir) 
     export WAYLAND_DISPLAY=$(getprop waydroid.wayland_display) 
-    exec /data/local/tmp/client | sh /sdcard/Android/data/xtr.keymapper/files/xtMapper.sh
+    /data/local/tmp/client | sh /sdcard/Android/data/xtr.keymapper/files/xtMapper.sh --wayland-client
