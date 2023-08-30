@@ -305,9 +305,9 @@ static void
 wl_pointer_button(void *data, struct wl_pointer *wl_pointer, uint32_t serial,
                uint32_t time, uint32_t button, uint32_t state)
 {
-    const char *action = state == WL_POINTER_BUTTON_STATE_PRESSED ? "DOWN" : "UP";
+    int action = state == WL_POINTER_BUTTON_STATE_PRESSED ? 1 : 0;
     const char *code = button == BTN_LEFT ? "BTN_LEFT" : "BTN_RIGHT";
-    printf("/dev/input/wl_pointer_button: EV_KEY %s %s\n", code, action);
+    printf("/dev/input/wl_pointer_button: EV_KEY %s %d\n", code, action);
 }
 
 static void
