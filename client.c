@@ -315,7 +315,7 @@ wl_pointer_axis(void *data, struct wl_pointer *wl_pointer, uint32_t time,
                 uint32_t axis, wl_fixed_t value)
 {
      printf("/dev/input/wl_pointer_axis: EV_REL %s %d\n",
-      (axis == WL_POINTER_AXIS_VERTICAL_SCROLL) ? "REL_WHEEL" : "REL_HWHEEL", value / abs(value));
+      (axis == WL_POINTER_AXIS_VERTICAL_SCROLL) ? "REL_WHEEL" : "REL_HWHEEL", -value / abs(value));
 }
 
 static const struct wl_pointer_listener wl_pointer_listener = {
