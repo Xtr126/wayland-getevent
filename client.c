@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
 #include <sys/mman.h>
 #include <sys/syscall.h>
 #include <time.h>
@@ -208,8 +209,10 @@ wl_keyboard_key(void *data, struct wl_keyboard *wl_keyboard,
        xkb_keysym_t sym = xkb_state_key_get_one_sym(
                        client_state->xkb_state, keycode);
        xkb_keysym_get_name(sym, buf, sizeof(buf));
-       const char *action =
-               state == WL_KEYBOARD_KEY_STATE_PRESSED ? "DOWN" : "UP";
+       const char *action = state == WL_KEYBOARD_KEY_STATE_PRESSED ? "DOWN" : "UP";
+
+       for (int i=0;i<strlen(buf);i++) buf[i] = toupper(buf[i]);
+        
        printf("/dev/input/wl_keyboard: EV_KEY KEY_%s %s\n", buf, action);
 }
 
