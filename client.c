@@ -161,8 +161,8 @@ void handle_relative_motion(void *data,
     static double acc_x = 0;
     static double acc_y = 0;
 
-    acc_x += wl_fixed_to_double(dx);
-    acc_y += wl_fixed_to_double(dy);
+    acc_x += wl_fixed_to_double(dx_unaccel);
+    acc_y += wl_fixed_to_double(dy_unaccel);
 
     printf("/dev/input/wl_pointer_relative: EV_REL REL_X %d\n", (int)acc_x);
     printf("/dev/input/wl_pointer_relative: EV_REL REL_Y %d\n", (int)acc_y);
