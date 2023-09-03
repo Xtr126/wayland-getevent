@@ -1,11 +1,17 @@
-A tool like Android getevent that is being developed for use in [XtMapper](https://github.com/Xtr126/XtMapper) to support waydroid.  
-Requires wayland-protocols for building.   
+A tool like Android getevent that is being developed for use in [XtMapper](https://github.com/Xtr126/XtMapper) to support waydroid.
+## Dependencies 
+You will need to have some system dependencies such as a C compiler installed for compiling it from source with make.  
+
+    # Arch Linux
+    sudo pacman -S wayland-protocols
+    
+    # Ubuntu
+    sudo apt install wayland-protocols libwayland-client0 libwayland-dev
+Requires latest XtMapper APK for using with the client. You can download it from last successful build: [GitHub actions](https://github.com/Xtr126/XtMapper/actions)
+## Usage
 
     $ make
     $ ./client
-
-Download latest XtMapper APK for using with the client from [GitHub actions](https://github.com/Xtr126/XtMapper/actions)
-## Usage
 Push client binary when container is running with adb
 
     $ adb push ./client /data/local/tmp
@@ -14,7 +20,7 @@ Or copy it (requires root privileges)
     # cp -a ./client ~/.local/share/waydroid/data/local/tmp/client
 Enter waydroid shell 
 
-    # waydroid shell
+    sudo waydroid shell
 Execute binary and pipe in wayland events
 
     export XDG_RUNTIME_DIR=$(getprop waydroid.xdg_runtime_dir) 
