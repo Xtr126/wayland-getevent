@@ -393,15 +393,15 @@ registry_global(void *data, struct wl_registry *wl_registry,
                 wl_registry, name, &xdg_wm_base_interface, 1);
         xdg_wm_base_add_listener(state->xdg_wm_base,
                 &xdg_wm_base_listener, state);
-    } else if (strcmp(interface, "zwp_pointer_constraints_v1") == 0) {
+    } else if (strcmp(interface, zwp_pointer_constraints_v1_interface.name) == 0) {
         state->pointer_constraints = (struct zwp_pointer_constraints_v1 *)wl_registry_bind(
                 wl_registry, name, &zwp_pointer_constraints_v1_interface, 1);
-    } else if (strcmp(interface, "zwp_relative_pointer_manager_v1") == 0) {
+    } else if (strcmp(interface, zwp_relative_pointer_manager_v1_interface.name) == 0) {
         state->relative_pointer_manager = (struct zwp_relative_pointer_manager_v1 *)wl_registry_bind(
                 wl_registry, name, &zwp_relative_pointer_manager_v1_interface, 1);
     } else if (strcmp(interface, wl_seat_interface.name) == 0) {
                state->wl_seat = wl_registry_bind(
-                               wl_registry, name, &wl_seat_interface, 7);
+                               wl_registry, name, &wl_seat_interface, WL_POINTER_AXIS_SOURCE_SINCE_VERSION);
                wl_seat_add_listener(state->wl_seat,
                                &wl_seat_listener, state);
     }
