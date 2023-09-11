@@ -26,7 +26,7 @@ fi
 
 sha256sum=ebbafde6d2d43a305c73c0830226ff38900565975ed6c52029957e9417ac5191
 check_integrity xkbcommon-1.5.0.zip $sha256sum
-unzip -q xkbcommon-1.5.0.zip
+unzip -q xkbcommon-1.5.0.zip || bsdtar -x -f xkbcommon-1.5.0.zip
 cd libxkbcommon-xkbcommon-1.5.0
 meson setup build \
     -Denable-x11=false \
