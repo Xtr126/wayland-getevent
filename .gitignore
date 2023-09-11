@@ -5,3 +5,4 @@ pointer-constraints-protocol.c
 pointer-constraints-unstable-v1-client-protocol.h
 relative-pointer-protocol.c
 relative-pointer-unstable-v1-client-protocol.h
+/build
