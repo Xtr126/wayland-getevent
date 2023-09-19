@@ -1,0 +1,29 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: build libffi
+      run: ./build-libffi-static.sh
+    - name: build libwayland-client
+      run: ./build-libwayland-client-static.sh
+    - name: build libxkbcommon
+      run: ./build-libxkbcommon-static.sh
+    - name: make
+      run: make
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Executable
+        path: ./client
+
