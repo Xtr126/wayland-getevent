@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: Build client
 
 on:
   push:
@@ -13,7 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
+
+    - name: install dependencies (ubuntu only)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-dep
+
     - name: build libffi
       run: ./build-libffi-static.sh
     - name: build libwayland-client
