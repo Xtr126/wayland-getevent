@@ -7,7 +7,6 @@ You will need to have some system dependencies such as a C compiler installed fo
     
     # Ubuntu
     sudo apt install wayland-protocols libwayland-client0 libwayland-dev
-Requires latest XtMapper APK for using with the client. You can download it from last successful build: [GitHub actions](https://github.com/Xtr126/XtMapper/actions)
 ## Usage
 
     $ make
