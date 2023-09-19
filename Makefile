@@ -1,6 +1,6 @@
-WAYLAND_SCANNER = $(shell pkg-config --variable=wayland_scanner wayland-scanner)
+WAYLAND_SCANNER = $(SYSROOT_DIR)/$(shell pkg-config --variable=wayland_scanner wayland-scanner)
 
-WAYLAND_PROTOCOLS_DIR = $(shell pkg-config wayland-protocols --variable=pkgdatadir)
+WAYLAND_PROTOCOLS_DIR = $(SYSROOT_DIR)/$(shell pkg-config wayland-protocols --variable=pkgdatadir)
 XDG_SHELL_PROTOCOL = $(WAYLAND_PROTOCOLS_DIR)/stable/xdg-shell/xdg-shell.xml
 POINTER_CONSTRAINTS_PROTOCOL = $(WAYLAND_PROTOCOLS_DIR)/unstable/pointer-constraints/pointer-constraints-unstable-v1.xml
 RELATIVE_POINTER_PROTOCOL = $(WAYLAND_PROTOCOLS_DIR)/unstable/relative-pointer/relative-pointer-unstable-v1.xml
@@ -32,7 +32,7 @@ all: client.c $(WL_HEADERS) $(WL_CODE) $(LIBS)
 	$(CC) $(CFLAGS) \
 		-g -std=c11 \
 		-o client client.c $(WL_HEADERS) $(WL_CODE) \
-		$(LIBS) -static
+		$(LIBS) -static -I$(INCLUDE_DIR)
 
 .DEFAULT_GOAL=all
 

@@ -17,17 +17,11 @@ jobs:
     - name: install dependencies (ubuntu only)
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential pkg-config libffi-dev python3-pip python3-setuptools ninja-build
+        sudo apt-get install -y python3-pip python3-setuptools ninja-build
         pip3 install meson
         
-    - name: build libffi
-      run: ./build-libffi-static.sh
-    - name: build libwayland-client
-      run: ./build-libwayland-client-static.sh
-    - name: build libxkbcommon
-      run: ./build-libxkbcommon-static.sh
-    - name: make
-      run: make
+    - name: build client
+      run: ./build.sh
     - uses: actions/upload-artifact@v3
       with:
         name: Executable

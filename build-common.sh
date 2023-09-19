@@ -1,5 +1,6 @@
-if [ ! -d build ]; then
-    mkdir build
+export SYSROOT_DIR="$(pwd)"/build/sysroot
+if [ ! -d "$SYSROOT_DIR" ]; then
+    mkdir -p "$SYSROOT_DIR"
 fi
 cd build
 

@@ -8,12 +8,14 @@ tar xf wayland-1.22.0.tar.xz || bsdtar -xf wayland-1.22.0.tar.xz
 cd wayland-1.22.0
 
 meson setup build \
+    --prefix /usr --libdir lib \
     -Dlibraries=true \
-    -Dscanner=false \
+    -Dscanner=true \
     -Dtests=false \
     -Ddocumentation=false \
     -Ddtd_validation=false \
     --prefer-static --default-library static
 ninja -C build
+meson install -C build --destdir "$SYSROOT_DIR"
 
-cp build/src/libwayland-client.a ../../
+cp "$SYSROOT_DIR"/usr/lib/libwayland-client.a ../../
