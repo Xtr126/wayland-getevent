@@ -8,7 +8,7 @@ RELATIVE_POINTER_PROTOCOL = $(WAYLAND_PROTOCOLS_DIR)/unstable/relative-pointer/r
 WL_HEADERS = xdg-shell-client-protocol.h  pointer-constraints-unstable-v1-client-protocol.h relative-pointer-unstable-v1-client-protocol.h
 WL_CODE = xdg-shell-protocol.c pointer-constraints-protocol.c relative-pointer-protocol.c
 
-LIBS=./libwayland-client.a ./libffi.a ./libxkbcommon.a
+LIBS=./libwayland-client.a ./libffi.a ./libxkbcommon.a -lpthread 
 
 xdg-shell-client-protocol.h:
 	$(WAYLAND_SCANNER) client-header $(XDG_SHELL_PROTOCOL) xdg-shell-client-protocol.h
