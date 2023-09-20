@@ -32,7 +32,7 @@ all: client.c $(WL_HEADERS) $(WL_CODE) $(LIBS)
 	$(CC) $(CFLAGS) \
 		-g -std=c11 \
 		-o client client.c $(WL_HEADERS) $(WL_CODE) \
-		$(LIBS) -static -I$(INCLUDE_DIR)
+		$(LIBS) -static
 
 .DEFAULT_GOAL=all
 
