@@ -13,12 +13,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    - name: install dependencies (ubuntu only)
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y python3-pip python3-setuptools ninja-build
-        pip3 install meson
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - run: pip install meson ninja
         
     - name: build client
       run: ./build.sh
@@ -26,4 +24,8 @@ jobs:
       with:
         name: Executable
         path: ./client
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Static libraries
+        path: lib*.a
 
