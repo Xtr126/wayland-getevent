@@ -16,6 +16,7 @@ A script build.sh is included to download all dependencies and build without req
 You can also download executable binary from last successful build: [GitHub actions](https://github.com/Xtr126/wayland-getevent/actions)
 
 ## Usage
+Requires latest XtMapper APK for using with the client. You can download it from last successful build: [GitHub actions](https://github.com/Xtr126/XtMapper/actions)
 
     $ chmod a+x ./client
     $ ./client
