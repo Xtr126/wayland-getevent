@@ -203,17 +203,23 @@ static void
 wl_keyboard_key(void *data, struct wl_keyboard *wl_keyboard,
                uint32_t serial, uint32_t time, uint32_t key, uint32_t state)
 {
-       struct client_state *client_state = data;
-       char buf[128];
-       uint32_t keycode = key + 8;
-       xkb_keysym_t sym = xkb_state_key_get_one_sym(
-                       client_state->xkb_state, keycode);
-       xkb_keysym_get_name(sym, buf, sizeof(buf));
-       const char *action = state == WL_KEYBOARD_KEY_STATE_PRESSED ? "DOWN" : "UP";
+    struct client_state *client_state = data;
+    char buf[128];
+    uint32_t keycode = key + 8;
+    xkb_keysym_t sym = xkb_state_key_get_one_sym(
+                    client_state->xkb_state, keycode);
+    xkb_keysym_get_name(sym, buf, sizeof(buf));
+    const char *action = state == WL_KEYBOARD_KEY_STATE_PRESSED ? "DOWN" : "UP";
 
-       for (int i=0;i<strlen(buf);i++) buf[i] = toupper(buf[i]);
-        
-       printf("/dev/input/wl_keyboard: EV_KEY KEY_%s %s\n", buf, action);
+    if (strcmp(buf, "Control_L") == 0) {
+        printf("/dev/input/wl_keyboard: EV_KEY KEY_LEFTCTRL %s\n", action);
+
+    } else if (strcmp(buf, "Control_R") == 0) {
+        printf("/dev/input/wl_keyboard: EV_KEY KEY_RIGHTCTRL %s\n", action);
+    } else {
+        for (int i=0;i<strlen(buf);i++) buf[i] = toupper(buf[i]);
+        printf("/dev/input/wl_keyboard: EV_KEY KEY_%s %s\n", buf, action);
+    }
 }
 
 static void
