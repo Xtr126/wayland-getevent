@@ -216,6 +216,8 @@ wl_keyboard_key(void *data, struct wl_keyboard *wl_keyboard,
 
     } else if (strcmp(buf, "Control_R") == 0) {
         printf("/dev/input/wl_keyboard: EV_KEY KEY_RIGHTCTRL %s\n", action);
+    } else if (strcmp(buf, "quotedbl") == 0) {
+        printf("/dev/input/wl_keyboard: EV_KEY KEY_GRAVE %s\n", action);
     } else {
         for (int i=0;i<strlen(buf);i++) buf[i] = toupper(buf[i]);
         printf("/dev/input/wl_keyboard: EV_KEY KEY_%s %s\n", buf, action);
