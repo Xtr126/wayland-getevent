@@ -395,7 +395,7 @@ registry_global(void *data, struct wl_registry *wl_registry,
                 wl_registry, name, &wl_shm_interface, 1);
     } else if (strcmp(interface, wl_compositor_interface.name) == 0) {
         state->wl_compositor = wl_registry_bind(
-                wl_registry, name, &wl_compositor_interface, 4);
+                wl_registry, name, &wl_compositor_interface, 3);
     } else if (strcmp(interface, xdg_wm_base_interface.name) == 0) {
         state->xdg_wm_base = wl_registry_bind(
                 wl_registry, name, &xdg_wm_base_interface, 1);
