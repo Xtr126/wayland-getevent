@@ -8,7 +8,9 @@ RELATIVE_POINTER_PROTOCOL = $(WAYLAND_PROTOCOLS_DIR)/unstable/relative-pointer/r
 WL_HEADERS = xdg-shell-client-protocol.h  pointer-constraints-unstable-v1-client-protocol.h relative-pointer-unstable-v1-client-protocol.h
 WL_CODE = xdg-shell-protocol.c pointer-constraints-protocol.c relative-pointer-protocol.c
 
-LIBS=./libwayland-client.a ./libffi.a ./libxkbcommon.a -lpthread 
+LIBS=-lwayland-client -lffi -lxkbcommon -lpthread 
+
+LIBS_STATIC=./build/libwayland-client.a ./build/libffi.a ./build/libxkbcommon.a -lpthread 
 
 xdg-shell-client-protocol.h:
 	$(WAYLAND_SCANNER) client-header $(XDG_SHELL_PROTOCOL) xdg-shell-client-protocol.h
@@ -28,11 +30,17 @@ relative-pointer-unstable-v1-client-protocol.h:
 relative-pointer-protocol.c:
 	$(WAYLAND_SCANNER) private-code $(RELATIVE_POINTER_PROTOCOL) relative-pointer-protocol.c
 
-all: client.c $(WL_HEADERS) $(WL_CODE) $(LIBS)
+all: client.c $(WL_HEADERS) $(WL_CODE)
 	$(CC) $(CFLAGS) \
 		-g -std=c11 \
 		-o client client.c $(WL_HEADERS) $(WL_CODE) \
-		$(LIBS) -static
+		$(LIBS) 
+
+static: client.c $(WL_HEADERS) $(WL_CODE) $(LIBS_STATIC)
+	$(CC) $(CFLAGS) \
+		-g -std=c11 \
+		-o client client.c $(WL_HEADERS) $(WL_CODE) \
+		$(LIBS_STATIC) -static
 
 .DEFAULT_GOAL=all
 

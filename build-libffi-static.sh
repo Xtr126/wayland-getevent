@@ -11,4 +11,4 @@ cd libffi-3.4.4
 ./configure --prefix=/usr --enable-static --disable-multi-os-directory --disable-shared
 mkdir out
 make DESTDIR="$SYSROOT_DIR" install
-cp "$SYSROOT_DIR"/usr/lib/libffi.a ../../
+cp "$SYSROOT_DIR"/usr/lib/libffi.a ../

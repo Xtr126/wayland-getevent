@@ -20,4 +20,4 @@ meson setup build \
 ninja -C build
 meson install -C build --destdir "$SYSROOT_DIR"
 
-cp "$SYSROOT_DIR"/usr/lib/libxkbcommon.a ../../
+cp "$SYSROOT_DIR"/usr/lib/libxkbcommon.a ../

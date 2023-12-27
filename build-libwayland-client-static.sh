@@ -18,4 +18,4 @@ meson setup build \
 ninja -C build
 meson install -C build --destdir "$SYSROOT_DIR"
 
-cp "$SYSROOT_DIR"/usr/lib/libwayland-client.a ../../
+cp "$SYSROOT_DIR"/usr/lib/libwayland-client.a ../
