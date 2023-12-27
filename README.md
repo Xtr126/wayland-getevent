@@ -1,4 +1,4 @@
-A tool like Android getevent that is being developed for use in [XtMapper](https://github.com/Xtr126/XtMapper) to support waydroid.
+A tool like Android getevent that is being developed for use in [XtMapper](https://github.com/Xtr126/XtMapper) to support waydroid.  
 Download executable binary from last successful build: [GitHub actions](https://github.com/Xtr126/wayland-getevent/actions)
 
 ---
