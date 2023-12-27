@@ -24,8 +24,4 @@ jobs:
       with:
         name: Executable
         path: ./client
-    - uses: actions/upload-artifact@v3
-      with:
-        name: Static libraries
-        path: lib*.a
 
