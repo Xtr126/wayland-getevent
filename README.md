@@ -1,7 +1,5 @@
 A tool like Android getevent that is being developed for use in [XtMapper](https://github.com/Xtr126/XtMapper) to support waydroid.  
-Download executable binary from last successful build:  
-https://github.com/Xtr126/wayland-getevent/actions  
-https://nightly.link/Xtr126/wayland-getevent/workflows/build-client/main?preview
+Download executable binary from [releases](https://github.com/Xtr126/wayland-getevent/releases)
 
 ---
 Usage

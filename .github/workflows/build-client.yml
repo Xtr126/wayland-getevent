@@ -25,3 +25,18 @@ jobs:
         name: Executable
         path: ./client
 
+    - name: Update Release
+      uses: andelf/nightly-release@main
+      if: github.repository == 'Xtr126/wayland-getevent'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: latest
+        name: 'Release $$'
+        prerelease: false
+        body: |
+          Initial release of the client binary.
+          Based on ${{ github.sha }}
+        files: |
+          ./client
+
