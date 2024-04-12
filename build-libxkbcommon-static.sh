@@ -1,9 +1,9 @@
 #!/bin/bash
 source ./build-common.sh || exit 1
 
-pkgver="1.7.0"
+pkgver="1.6.0"
 
-sha256sum=3c062bf0ba1606b2edfe9f455f628f70bc9cdd892decc1c940042e6aff6b8ab6
+sha256sum=ea2322ef49d0c015dccc90acf629442071a561564d401261635fbcc04ec6c420
 download_file xkbcommon-$pkgver.zip $sha256sum https://codeload.github.com/xkbcommon/libxkbcommon/zip/refs/tags/xkbcommon-$pkgver
 
 bsdtar -xf xkbcommon-$pkgver.zip || unzip -q xkbcommon-$pkgver.zip
