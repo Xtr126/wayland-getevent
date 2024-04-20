@@ -8,11 +8,12 @@ Usage
 
     $ chmod a+x ./client
     $ ./client | sudo waydroid shell -- sh /sdcard/Android/data/xtr.keymapper/files/xtMapper.sh --wayland-client
-This will create an invisible wayland window named "XtMapper" from which keyboard and mouse input events are captured and then forwarded to XtMapper.  
-Minimize the client window and click on start button in XtMapper app, then maximize the client window back.  
-For it to work as intended, it's size should be same as that of the waydroid window and overlay the waydroid window.  
-[Auto Profiling](https://xtr126.github.io/XtMapper-docs/features/auto_profiling/) should be disabled in settings.  
-
+- This [hack](https://github.com/casualsnek/waydroid_script?tab=readme-ov-file#granting-full-permission-for-apps-data-hack) may be needed if xtMapper.sh can't be found.  
+- This will create an invisible wayland window named "XtMapper" from which keyboard and mouse input events are captured and then forwarded to XtMapper. 
+- Minimize the client window and click on start button in XtMapper app, then maximize the client window back.  
+- For it to work as intended, it's size should be same as that of the waydroid window and overlay the waydroid window.    
+- If it launched fine, "using wayland client" will be output on the terminal.  
+- [Auto Profiling](https://xtr126.github.io/XtMapper-docs/features/auto_profiling/) should be disabled in settings.  
 ![image](https://github.com/Xtr126/wayland-getevent/assets/80520774/bd0d3df7-eb92-4816-8c67-506175709f23)
 
 ---
