@@ -2,10 +2,11 @@
     git clone https://github.com/Xtr126/cage
     cd cage
     git submodule update --init
-    patch -d subprojects/wlroots/ -p1 -i ../../0001-wlroots-confine-pointer.patch
+    patch -d subprojects/wlroots/ -p1 -i ../../0001-wlroots-wayland-confine-pointer.patch 
     patch -d subprojects/wlroots/ -p1 -i ../../0002-wayland-decoration-envvar.patch
-    patch -d subprojects/wlroots/ -p1 -i ../../0003-wlroots-wayland-backend-custom-size.patch    
+    patch -d subprojects/wlroots/ -p1 -i ../../0003-wlroots-wayland-backend-custom-size.patch
     patch -d subprojects/wlroots/ -p1 -i ../../0004-wlroots-x11-backend-custom-size.patch
+    patch -d subprojects/wlroots/ -p1 -i ../../0005-wlroots-x11-confine-pointer.patch
     meson setup build --buildtype=release
     ninja -C build
 
@@ -16,4 +17,4 @@
 
 Enter your sudo password when prompted.  
 wlroots x11 and wayland backends were modified to use a custom resolution set by the `XTMAPPER_WIDTH` and `XTMAPPER_HEIGHT` environment variables.  
-Wayland only - Confine/lock pointer to cage window and hide window title bar when `WLR_NO_DECORATION=1` is set.
+Wayland only - Hide window title bar when `WLR_NO_DECORATION=1` is set.
