@@ -5,6 +5,7 @@
     patch -d subprojects/wlroots/ -p1 -i ../../0001-wlroots-confine-pointer.patch
     patch -d subprojects/wlroots/ -p1 -i ../../0002-wayland-decoration-envvar.patch
     patch -d subprojects/wlroots/ -p1 -i ../../0003-wlroots-wayland-backend-custom-size.patch    
+    patch -d subprojects/wlroots/ -p1 -i ../../0004-wlroots-x11-backend-custom-size.patch
     meson setup build --buildtype=release
     ninja -C build
 
@@ -14,4 +15,5 @@
     ./build/cage waydroid show-full-ui | sh -c  'while [[ -z $(waydroid prop get sys.boot_completed) ]]; do sleep 1; done; echo -en \'\\033[0;32m\'; exec sudo waydroid shell -- sh /sdcard/Android/data/xtr.keymapper/files/xtMapper.sh --wayland-client --width=$XTMAPPER_WIDTH --height=$XTMAPPER_HEIGHT'
 
 Enter your sudo password when prompted.  
-wlroots wayland backend was modified to use a custom resolution set by the `XTMAPPER_WIDTH` and `XTMAPPER_HEIGHT` environment variables and hide window title bar when `WLR_NO_DECORATION=1` is set.
+wlroots x11 and wayland backends were modified to use a custom resolution set by the `XTMAPPER_WIDTH` and `XTMAPPER_HEIGHT` environment variables.  
+Wayland only - Confine/lock pointer to cage window and hide window title bar when `WLR_NO_DECORATION=1` is set.
