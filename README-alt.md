@@ -11,7 +11,6 @@
     ninja -C build
 
 ## Usage
-    systemctl restart waydroid-container.service
     sudo -E ./cage_xtmapper.sh --user $(whoami) --window-width 1280 --window-height 720 --window-no-title-bar
     
 
