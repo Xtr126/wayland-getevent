@@ -13,8 +13,14 @@
 ## Usage
     sudo -E ./cage_xtmapper.sh --user $(whoami) --window-width 1280 --window-height 720 --window-no-title-bar
     
-
 Enter your sudo password when prompted.  
-wlroots x11 and wayland backends were modified to use a custom resolution set by the `XTMAPPER_WIDTH` and `XTMAPPER_HEIGHT` environment variables.  
-Wayland only - Hide window title bar when `WLR_NO_DECORATION=1` is set.  
-Use F11 or any other key defined in  [togglekey.h](https://github.com/Xtr126/cage/blob/master/togglekey.h) to toggle between XtMapper or Waydroid handling mouse input.
+- Enable cursor on subsurface if cursor is invisible:
+  
+        $ waydroid prop set persist.waydroid.cursor_on_subsurface true
+- Reboot the system or restart the service when running cage again after closing it:
+
+        $ systemctl restart waydroid-container.service
+- wlroots x11 and wayland backends were modified to use a custom resolution set by the `XTMAPPER_WIDTH` and `XTMAPPER_HEIGHT` environment variables.  
+- Wayland only - Hide window title bar when `WLR_NO_DECORATION=1` or `--window-no-title-bar` is set.  
+- Use F11 or any other key defined in  [togglekey.h](https://github.com/Xtr126/cage/blob/master/togglekey.h) to toggle between XtMapper or Waydroid handling mouse input.
+    
