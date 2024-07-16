@@ -9,7 +9,10 @@
     patch -d subprojects/wlroots/ -p1 -i ../../0005-wlroots-x11-confine-pointer.patch
     meson setup build --buildtype=release
     ninja -C build
-If build fails, check if unmodified cage and wlroots source code can build normally on your system. 
+If build fails, check if upstream cage and wlroots source code can build normally on your system:  
+Cage: https://github.com/cage-kiosk/cage  
+wlroots: https://gitlab.freedesktop.org/wlroots
+
 ## Usage
     sudo -E ./cage_xtmapper.sh --user $(whoami) --window-width 1280 --window-height 720 --window-no-title-bar
     
