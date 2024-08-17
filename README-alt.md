@@ -14,13 +14,16 @@ Cage: https://github.com/cage-kiosk/cage
 wlroots: https://gitlab.freedesktop.org/wlroots
 
 ## Usage
-    sudo -E ./cage_xtmapper.sh --user $(whoami) --window-width 1280 --window-height 720 --window-no-title-bar
-    
-Enter your sudo password when prompted.  
-- Enable cursor on subsurface if cursor is invisible:
+Step 1 - Stop any running instance of waydroid prior to launching cage by restarting the service first:
+
+        $ systemctl restart waydroid-container.service
+Step 2 - Run the [cage_xtmapper.sh](https://github.com/Xtr126/cage/blob/master/togglekey.h) script.  
+
+        $ sudo -E ./cage_xtmapper.sh --user $(whoami) --window-width 1280 --window-height 720 --window-no-title-bar
+Enable cursor on subsurface if cursor is invisible:
   
         $ waydroid prop set persist.waydroid.cursor_on_subsurface true
-- Reboot the system or restart the service when running cage again after closing it:
+Reboot the system or restart the service when running cage again after closing it:
 
         $ systemctl restart waydroid-container.service
 - wlroots x11 and wayland backends were modified to use a custom resolution set by the `XTMAPPER_WIDTH` and `XTMAPPER_HEIGHT` environment variables.  
