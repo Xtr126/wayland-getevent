@@ -8,6 +8,8 @@ It is advisable to build the client from source instead so that it can link agai
 ---
 Usage
 ---
+Install the latest version of XtMapper from https://github.com/Xtr126/XtMapper/actions/workflows/build-apk.yml only. Use nightly.link if you are not logged in.
+
 
     $ chmod a+x ./client
     $ ./client | sudo waydroid shell -- sh /sdcard/Android/data/xtr.keymapper/files/xtMapper.sh --wayland-client

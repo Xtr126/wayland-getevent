@@ -19,7 +19,7 @@ Cage: https://github.com/cage-kiosk/cage
 wlroots: https://gitlab.freedesktop.org/wlroots
 
 ## Usage
-Install the latest version of XtMapper from https://github.com/Xtr126/XtMapper/actions/workflows/build-apk.yml to use cage. Older versions are not supported.  
+Install the latest version of XtMapper from https://github.com/Xtr126/XtMapper/actions/workflows/build-apk.yml only to use cage. Use nightly.link if you are not logged in.
 
 Step 1 - Stop any running instance of waydroid prior to launching cage by restarting the service first:
 
