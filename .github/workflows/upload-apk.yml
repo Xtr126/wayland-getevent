@@ -1,0 +1,32 @@
+
+name: Upload APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - upload-apk.yml'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: Release APK
+        github-token: ${{ secrets.GITHUB_TOKEN }} # token with actions:read permissions on target repo
+        repository: Xtr126/XtMapper
+        run-id: 10859063512
+
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: '*.apk'
+        asset_name: app-release.zip
+        tag: latest
+        overwrite: true
+        file_glob: true
