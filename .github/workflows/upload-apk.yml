@@ -19,7 +19,7 @@ jobs:
         name: Release APK
         github-token: ${{ secrets.GITHUB_TOKEN }} # token with actions:read permissions on target repo
         repository: Xtr126/XtMapper
-        run-id: 10878205244
+        run-id: 11198646137
 
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
@@ -30,3 +30,4 @@ jobs:
         tag: latest
         overwrite: true
         file_glob: true
+        draft: true
