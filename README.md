@@ -1,3 +1,6 @@
+> [!NOTE]
+> While we work on packaging our modified version of cage for popular distributions, [Use this](./README-alt.md) if you cannot build cage.
+
 ## Build 
 **Cage dependencies**  
 - [Arch](https://github.com/cage-kiosk/cage/blob/eaeab71ffa3ab5884df09c5664c00e368ca2585e/.github/workflows/main.yml#L32) `pacman -Syu xcb-util-wm seatd git clang meson libinput libdrm mesa libxkbcommon wayland wayland-protocols xorg-server-xwayland scdoc hwdata`  
@@ -40,5 +43,3 @@ Upstream cage and wlroots projects also distribute only source code.
 In my opinion, cage and wlroots are easiest to build on archlinux, even upstream cage uses archlinux/alpine for their CI build.
 Most Arch Linux systems running wayland already have the dependencies to build wlroots/cage, they can build straight-away. I always had dependency issues when trying to build them on Ubuntu, debian. If you found the dependencies please make a pull request.
 
-> [!NOTE]
-> Before cage there used to be an version using an invisible overlay that works with host wayland compositor. [Use it](./README-alt.md) if you cannot build cage.
