@@ -35,11 +35,3 @@ Enable cursor on subsurface if cursor is invisible:
 - Use F10 or any other key defined in  [togglekey.h](https://github.com/Xtr126/cage/blob/master/togglekey.h) to toggle between XtMapper or Waydroid handling mouse input.
 - Direct touchmap mode feature doesn't work, see https://github.com/Xtr126/wayland-getevent/issues/14#issuecomment-2415811259 for alternate method.
 
-
-**Why no pre-built binaries?**
-cage and wlroots are system software that needs to interface with the GPU driver and kernel, so it's not preferred to distribute binaries instead of building them.
-Usually they are installed with system package manager.
-Upstream cage and wlroots projects also distribute only source code.
-In my opinion, cage and wlroots are easiest to build on archlinux, even upstream cage uses archlinux/alpine for their CI build.
-Most Arch Linux systems running wayland already have the dependencies to build wlroots/cage, they can build straight-away. I always had dependency issues when trying to build them on Ubuntu, debian. If you found the dependencies please make a pull request.
-
