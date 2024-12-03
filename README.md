@@ -34,5 +34,14 @@ Enable cursor on subsurface if cursor is invisible:
 - wlroots x11 and wayland backends were modified to use a custom resolution set by the `XTMAPPER_WIDTH` and `XTMAPPER_HEIGHT` environment variables.  
 - Wayland only - Hide window title bar when `WLR_NO_DECORATION=1` or `--window-no-title-bar` is set.  
 - Use F10 or any other key defined in  [togglekey.h](https://github.com/Xtr126/cage/blob/master/togglekey.h) to toggle between XtMapper or Waydroid handling mouse input.
-- Direct touchmap mode feature doesn't work, see https://github.com/Xtr126/wayland-getevent/issues/14#issuecomment-2415811259 for alternate method.
-
+- Direct touchmap mode feature doesn't work, but you can use a simple udev hack:  
+We actually have to change `ID_INPUT_TOUCHPAD` to `ID_INPUT_TOUCHSCREEN`. So the following command would do that easily:
+```bash
+ sudo find /run/udev -type f -exec sed -i 's/ID_INPUT_TOUCHPAD/ID_INPUT_TOUCHSCREEN/g' {} \;
+```
+To revert:
+```bash
+ sudo find /run/udev -type f -exec sed -i 's/ID_INPUT_TOUCHSCREEN/ID_INPUT_TOUCHPAD/g' {} \;
+```
+Works fine on plasma 6.1.5 and Arch Linux.  
+Also recommend enabling "Touch points" from System Settings > Window Management > Desktop effects to visualize touches.
